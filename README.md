@@ -24,10 +24,11 @@ Live visual software for windows
 
 ## Aestesis web site
 
-- http://aestesis.net/
+- http://aestesis.org/
 - [blusky](https://bsky.app/profile/aestesis.bsky.social)
 
 ## License
 
 © 1998 [Aestesis/Renan JEGOUZO](http://aestesis.org)  [udshu.bsky](https://bsky.app/profile/udshu.bsky.social) Apache-2.0 License
+
 
