@@ -1,0 +1,48 @@
+name: Rust CI
+
+on:
+  push:
+    branches: [ "master_rust" ]
+  pull_request:
+    branches: [ "master_rust" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Install Rust
+      uses: dtolnay/rust-toolchain@stable
+      with:
+        components: clippy, rustfmt
+
+    - name: Install dependencies (Ubuntu)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libasound2-dev libudev-dev pkg-config libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev
+
+    - name: Build
+      working-directory: elektronika-rs
+      run: cargo build --verbose
+
+    - name: Run tests
+      working-directory: elektronika-rs
+      run: cargo test --verbose
+
+    - name: Check formatting
+      working-directory: elektronika-rs
+      run: cargo fmt -- --check
+
+    - name: Clippy
+      working-directory: elektronika-rs
+      run: cargo clippy -- -D warnings
